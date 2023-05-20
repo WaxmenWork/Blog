@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import userService from "../services/user-service";
 import {validationResult} from 'express-validator';
 import { ApiError } from "../exceptions/api-error";
+import { RequestWithUser } from "../types";
 
 class UserController {
 
@@ -53,7 +54,7 @@ class UserController {
         }
     }
 
-    async getUsers(req: Request, res: Response, next: NextFunction) {
+    async getUsers(req: RequestWithUser, res: Response, next: NextFunction) {
         try {
             const users = await userService.getAllUsers();
             return res.json(users)
