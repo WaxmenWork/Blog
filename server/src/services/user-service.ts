@@ -77,8 +77,16 @@ class UserService {
   }
 
   async getAllUsers() {
-    const users = await this.User.findAll();
+    const users = await this.User.findAll({attributes: { exclude: ['password'] }});
     return users;
+  }
+
+  async getUserById(id: number) {
+    const user = await this.User.findOne({
+      where: {id},
+      attributes: { exclude: ['password'] }
+    });
+    return user;
   }
 }
 

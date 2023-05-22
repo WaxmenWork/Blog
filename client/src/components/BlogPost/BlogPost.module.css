@@ -1,0 +1,34 @@
+.postItem {
+    border: 1px solid gray;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.media {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    width: 90%;
+}
+
+.imageItem {
+    max-width: 15%;
+    margin-right: 2%;
+}
+
+.imageItem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.videoItem {
+    max-width: 70%;
+    margin-right: 2%;
+}
+
+.videoItem video {
+    max-width: 100%;
+    margin-right: 2%;
+}

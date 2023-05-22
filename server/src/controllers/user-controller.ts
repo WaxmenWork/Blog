@@ -57,7 +57,22 @@ class UserController {
     async getUsers(req: RequestWithUser, res: Response, next: NextFunction) {
         try {
             const users = await userService.getAllUsers();
-            return res.json(users)
+            return res.json(users);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getUserById(req: RequestWithUser, res: Response, next: NextFunction) {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()){
+                return next(ApiError.BadRequest('ID должен быть целым положительным числом', errors.array()));
+            }
+
+            const id = +req.params.id;
+            const user = await userService.getUserById(id)
+            return res.json(user);
         } catch (e) {
             next(e);
         }
