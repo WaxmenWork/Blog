@@ -24,7 +24,7 @@ class BlogService {
     }
 
     async getAllPosts(limit: number, offset: number) {
-        const posts = await this.Post.findAll({
+        const posts = await this.Post.findAndCountAll({
             limit,
             offset,
             order: [['createdAt', 'DESC']],

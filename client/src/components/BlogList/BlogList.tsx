@@ -4,26 +4,13 @@ import { IPost } from '../../models/IPost'
 import { Context } from '../..'
 import BlogService from '../../services/BlogService'
 import BlogPost from '../BlogPost/BlogPost'
+import Pages from '../Pages/Pages'
 
 const BlogList = () => {
 
-    const {store} = useContext(Context);
-    const [posts, setPosts] = useState<IPost[]>([]);
+    const {blogStore} = useContext(Context);
 
-    useEffect(() => {
-        getPosts();
-    }, []);
-
-    async function getPosts() {
-        try {
-            const response = await BlogService.fetchPosts();
-            setPosts(response.data);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    if (posts.length === 0) {
+    if (blogStore.posts.length === 0) {
         return (
             <div>
                 <h1>Блог</h1>
@@ -35,8 +22,9 @@ const BlogList = () => {
     return (
         <div>
           <h1>Блог</h1>
-          {posts.map(post => (
-            <BlogPost key={post.id} post={post} UserId={store.user.id}/>
+          <Pages/>
+          {blogStore.posts.map(post => (
+            <BlogPost key={post.id} post={post}/>
           ))}
         </div>
       );

@@ -2,11 +2,16 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useRef, useState } from 'react'
 import BlogService from '../../services/BlogService';
 import { Context } from '../..';
+import { IPost } from '../../models/IPost';
 
-const BlogForm = () => {
+interface PostEditFormProps {
+    post: IPost;
+}
+
+const PostEditForm = ({post}: PostEditFormProps) => {
     const {blogStore} = useContext(Context);
-    const [title, setTitle] = useState("");
-    const [message, setMessage] = useState("");
+    const [title, setTitle] = useState(post.title);
+    const [message, setMessage] = useState(post.message);
     const [media, setMedia] = useState<File[]>([]);
     const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -16,10 +21,11 @@ const BlogForm = () => {
         if (title.length < 6 || title.length > 64) {
           alert("Заголовок должен быть длинной не менее 6 и не более 64 символов");
         } else {
-          await blogStore.addPost(title, message, media);
+          await blogStore.updatePost(title, message, media, post.id);
           setTitle("");
           setMessage("");
           setMedia([]);
+          blogStore.setEditingPostId(-1);
         }
       } catch (error) {
         console.log(error);
@@ -27,10 +33,10 @@ const BlogForm = () => {
     };
   
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files && event.target.files.length <= 5) {
+      if (event.target.files && event.target.files.length + post.Media.length <= 5) {
         setMedia(Array.from(event.target.files));
       } else {
-        alert("Вы можете выбрать не более 5 файлов");
+        alert("Пост может содержать не более пяти файлов");
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
@@ -38,9 +44,7 @@ const BlogForm = () => {
     };
 
     return (
-      <div>
-        <h1>Создание поста</h1>
-        <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Заголовок:</label>
           <input
@@ -69,11 +73,10 @@ const BlogForm = () => {
             onChange={handleFileChange}
           />
         </div>
-        <button type="submit">Создать пост</button>
+        <button type="submit">Сохранить изменения</button>
       </form>
-      </div>
     );
   };
   
 
-export default observer(BlogForm);
+export default observer(PostEditForm);

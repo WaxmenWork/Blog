@@ -251,7 +251,7 @@ export const serveMedia = (req: RequestWithUser, res: Response, next: NextFuncti
     const mediaType = req.params.type;
     const fileExt = req.params.ext;
     const fileName = req.params.file;
-    if (["video", "audio", "image"].includes(mediaType) && ["jpg", "jpeg", "png", "gif", "mp3", "mp4"].includes(fileExt)) {
+    if (["video", "audio", "image"].includes(mediaType) && ["jpg", "jpeg", "png", "gif", "mpeg", "mp4"].includes(fileExt)) {
       express.static(path.join(__dirname, "..", "..", "public", "media", mediaType, fileExt, fileName))(
         req,
         res,

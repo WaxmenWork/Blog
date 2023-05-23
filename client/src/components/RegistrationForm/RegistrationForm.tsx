@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 const RegistrationForm = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const [repeatPassword, setRepeatPassword] = useState<string>('');
     const {store} = useContext(Context);
 
     return (
@@ -23,12 +22,6 @@ const RegistrationForm = () => {
                 value={password}
                 type="password"
                 placeholder='Пароль'
-            />
-            <input
-                onChange={e => setRepeatPassword(e.target.value)}
-                value={repeatPassword}
-                type="password"
-                placeholder='Повторите пароль'
             />
             <button onClick={() => store.registration(email, password)} >Зарегистрироваться</button>
         </div>

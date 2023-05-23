@@ -1,53 +1,140 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes, DetailedHTMLProps, MouseEventHandler, useContext, useEffect, useState } from 'react'
 import { IPost } from '../../models/IPost';
 import { MEDIA_URL } from '../../http';
 import styles from './BlogPost.module.css';
+import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
+import { Context } from '../..';
+import PostEditForm from '../PostEditForm/PostEditForm';
+import Pages from '../Pages/Pages';
 
 interface BlogPostProps {
     post: IPost;
-    UserId: number;
 }
 
-const BlogPost = ({post, UserId}: BlogPostProps) => {
+const BlogPost = ({post}: BlogPostProps) => {
+
+    const {store, blogStore} = useContext(Context);
+    const [isEditing, setIsEditing] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [mediaIdToDelete, setMediaIdToDelete] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (isEditing && blogStore.editingPostId !== post.id) {
+            setIsEditing(false);
+        }
+    }, [blogStore.editingPostId]);
+
+    const editPost = () => {
+        setIsEditing(true);
+        blogStore.setEditingPostId(post.id);
+    }
+
+    const handleDeleteMedia = (mediaId: number) => {
+        setMediaIdToDelete(mediaId);
+        setShowModal(true);
+      };
+    
+      const handleConfirmDelete = () => {
+        if (mediaIdToDelete) {
+          blogStore.deleteMedia(mediaIdToDelete);
+        }
+        setShowModal(false);
+        setMediaIdToDelete(null);
+      };
+
   return (
     <div className={styles.postItem}>
         <div>
             <h3>{post.title}</h3>
         </div>
-        <div className={styles.media}>
-            {post.Media.map(item => {
-            if (item.type === "image") {
-                return (
-                    <div className={styles.imageItem} key={item.id}>
+        <Container>
+            <Row className={styles.imageRow}>
+            {post.Media.filter((item) => item.type === 'image').map((item) => (
+                <Col key={item.id}>
+                    <div className={styles.imageItem}>
+                        {isEditing && (
+                            <span
+                                className={styles.deleteMedia}
+                                onClick={() => handleDeleteMedia(item.id)}
+                            >
+                                X
+                            </span>
+                        )}
                         <img src={MEDIA_URL + item.url} alt={item.type} />
                     </div>
-                );
-            }
-            else if (item.type === "video") {
-                return (
-                    <div className={styles.videoItem} key={item.id}>
-                        <video controls src={MEDIA_URL + item.url}/>
+                </Col>
+            ))}
+            </Row>
+            <Row className={styles.videoRow}>
+            {post.Media.filter((item) => item.type === 'video').map((item) => (
+                <Col key={item.id} xs={6}>
+                    <div className={styles.videoItem}>
+                        {isEditing && (
+                            <span
+                                className={styles.deleteMedia}
+                                onClick={() => handleDeleteMedia(item.id)}
+                            >
+                                X
+                            </span>
+                        )}
+                        <video controls src={MEDIA_URL + item.url} />
                     </div>
-                );
-            }
-            else {
-                return (
-                    <div key={item.id}>
-                        <audio src={MEDIA_URL + item.url}/>
+                </Col>
+            ))}
+            </Row>
+            <Row className={styles.audioRow}>
+            {post.Media.filter((item) => item.type === 'audio').map((item) => (
+                <Col key={item.id}>
+                    <div className={styles.audioItem}>
+                        {isEditing && (
+                            <span
+                                className={styles.deleteMedia}
+                                onClick={() => handleDeleteMedia(item.id)}
+                            >
+                                X
+                            </span>
+                        )}
+                        <audio controls src={MEDIA_URL + item.url} />
                     </div>
-                );
-            }
-            })}
-        </div>
-        <div>
-            <p>{post.message}</p>
-        </div>
-        <div>
-            <p>{post.User.email}</p>
-        </div>
-        <div>
-            {post.UserId === UserId ? <p>Ваш пост</p> : <p>Чужой пост</p>}
-        </div>
+                </Col>
+            ))}
+            </Row>
+        </Container>
+
+        <Container>
+            <Col>
+                <p className={styles.postMessage}>{post.message}</p>
+            </Col>
+        </Container>
+        <Container>
+            <Col>
+                <p>{post.User.email}</p>
+            </Col> 
+        </Container>
+        <Container>
+            {post.UserId === store.user.id ? (
+                <Col>
+                    <button onClick={() => blogStore.deletePost(post.id)}>Удалить</button>
+                    {isEditing ?
+                    (<PostEditForm post={post}/>) :
+                    <button onClick={editPost}>Редактировать</button>
+                    }
+                </Col>
+            ) : <p>Чужой пост</p>}
+        </Container>
+
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>Удаление элемента</Modal.Header>
+            <Modal.Body>Вы уверены, что хотите удалить этот элемент?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                    Отмена
+                </Button>
+                <Button variant="primary" onClick={handleConfirmDelete}>
+                    ОК
+                </Button>
+            </Modal.Footer>
+        </Modal>
     </div>
   )
 }
