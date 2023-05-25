@@ -19,7 +19,7 @@ const Post = sequelize.define<PostInstance>('Post', {
     unique: false
   },
   message: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
     unique: false
   }

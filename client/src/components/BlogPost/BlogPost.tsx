@@ -17,6 +17,8 @@ const BlogPost = ({post}: BlogPostProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [mediaIdToDelete, setMediaIdToDelete] = useState<number | null>(null);
+    const postCreatedAt = (new Date(post.createdAt)).toUTCString();
+    const postUpdatedAt = (new Date(post.updatedAt)).toUTCString();
 
     useEffect(() => {
         if (isEditing && blogStore.editingPostId !== post.id) {
@@ -47,10 +49,12 @@ const BlogPost = ({post}: BlogPostProps) => {
         <div>
             <h3>{post.title}</h3>
         </div>
+        <hr />
+        {post.Media.length > 0 && (
         <Container>
             <Row className={styles.imageRow}>
             {post.Media.filter((item) => item.type === 'image').map((item) => (
-                <Col key={item.id}>
+                <Col key={item.id} xs={4}>
                     <div className={styles.imageItem}>
                         {isEditing && (
                             <span
@@ -100,17 +104,22 @@ const BlogPost = ({post}: BlogPostProps) => {
             ))}
             </Row>
         </Container>
-
+        )}
         <Container>
             <Col>
                 <p className={styles.postMessage}>{post.message}</p>
             </Col>
         </Container>
         <Container>
-            <Col>
-                <p>{post.User.email}</p>
-            </Col> 
+            <Row>
+                <Col>
+                    <p>{post.User.email}</p>
+                </Col>
+                <span>Создан: {postCreatedAt}</span><br/>
+                <span>Изменён: {postUpdatedAt}</span>
+            </Row>
         </Container>
+        <hr />
         <Container>
             {post.UserId === store.user.id ? (
                 <Col>

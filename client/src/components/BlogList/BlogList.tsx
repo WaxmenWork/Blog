@@ -10,22 +10,20 @@ const BlogList = () => {
 
     const {blogStore} = useContext(Context);
 
-    if (blogStore.posts.length === 0) {
-        return (
-            <div>
-                <h1>Блог</h1>
-                <p>Пусто</p>
-            </div>
-        )
-    }
-
     return (
         <div>
           <h1>Блог</h1>
           <Pages/>
-          {blogStore.posts.map(post => (
-            <BlogPost key={post.id} post={post}/>
-          ))}
+          {blogStore.posts.length === 0 ? (
+            <p>Пусто</p>
+          ) :
+          <>
+            {blogStore.posts.map(post => (
+              <BlogPost key={post.id} post={post}/>
+            ))}
+          </>
+          }
+          
         </div>
       );
       

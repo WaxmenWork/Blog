@@ -24,7 +24,8 @@ class BlogService {
     }
 
     async getAllPosts(limit: number, offset: number) {
-        const posts = await this.Post.findAndCountAll({
+        const count = await this.Post.count();
+        const rows = await this.Post.findAll({
             limit,
             offset,
             order: [['createdAt', 'DESC']],
@@ -40,7 +41,7 @@ class BlogService {
                 }
             ]
         });
-        return posts;
+        return { count, rows };
     }
 
     async getPostById(id: number) {

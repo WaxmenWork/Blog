@@ -5,8 +5,8 @@ export interface IPost {
     id: number;
     title: string;
     message: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     UserId: number;
     Media: IMedia[];
     User: IUser;

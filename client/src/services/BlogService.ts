@@ -37,7 +37,13 @@ export default class BlogService {
     }
 
     static async addMediaToPost(media: File[], id: number) : Promise<void> {
-      return await $api.post(`/blog/${id}/media`, {media});
+      const formData = new FormData();
+      media.forEach(file => {
+        formData.append("media", file);
+      });
+      return await $api.post(`/blog/${id}/media`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
     }
 
     static async deleteMedia(id: number) : Promise<void> {

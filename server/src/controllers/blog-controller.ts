@@ -236,7 +236,6 @@ class BlogController {
 
                 media.push(...(await Promise.all(promises)));
             }
-
             await mediaService.addMediaToPost(media, PostId)
             
             res.sendStatus(200);

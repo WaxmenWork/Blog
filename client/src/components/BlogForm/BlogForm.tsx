@@ -20,6 +20,9 @@ const BlogForm = () => {
           setTitle("");
           setMessage("");
           setMedia([]);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
         }
       } catch (error) {
         console.log(error);
