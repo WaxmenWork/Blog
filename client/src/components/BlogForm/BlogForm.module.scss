@@ -1,0 +1,23 @@
+.blogForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 50%;
+
+    label {
+        margin: 10px 0;
+    }
+
+    input {
+        width: 50%;
+    }
+
+    textarea {
+        width: 100%;
+        height: 200px;
+    }
+
+    button {
+        margin: 20px 0 0 0;
+    }
+}

@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext, useRef, useState } from 'react'
 import BlogService from '../../services/BlogService';
 import { Context } from '../..';
+import styles from './BlogForm.module.scss'
 
 const BlogForm = () => {
     const {blogStore} = useContext(Context);
@@ -41,11 +42,11 @@ const BlogForm = () => {
     };
 
     return (
-      <div>
+      <div className={styles.blogForm}>
         <h1>Создание поста</h1>
         <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Заголовок:</label>
+          <label htmlFor="title">Заголовок:</label><br />
           <input
             id="title"
             type="text"
@@ -54,7 +55,7 @@ const BlogForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="message">Сообщение:</label>
+          <label htmlFor="message">Сообщение:</label><br />
           <textarea
             id="message"
             value={message}
@@ -62,7 +63,7 @@ const BlogForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="media">Медиа:</label>
+          <label htmlFor="media">Медиа:</label><br />
           <input
             ref={fileInputRef}
             id="media"

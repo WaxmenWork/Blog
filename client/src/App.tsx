@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite';
 import BlogList from './components/BlogList/BlogList';
 import BlogForm from './components/BlogForm/BlogForm';
 import BlogService from './services/BlogService';
+import styles from './App.module.scss';
 
 function App() {
   const {store, blogStore} = useContext(Context);
@@ -34,17 +35,20 @@ function App() {
   if (!store.isAuth) {
     return (
       <div className='App'>
-        <LoginForm/>
-        <RegistrationForm/>
+        <div className={styles.app}>
+          <LoginForm/>
+          <RegistrationForm/>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="App">
-      <button onClick={() => store.logout()}>Выйти</button>
-      <BlogForm/>
-      <BlogList/>
+      <div className={styles.app}>
+        <button onClick={() => store.logout()}>Выйти</button>
+        <BlogList/>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Context } from '../../index';
-import styles from './RegistrationForm.module.css'
+import styles from './RegistrationForm.module.scss'
 import { observer } from 'mobx-react-lite';
 
 const RegistrationForm = () => {

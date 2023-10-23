@@ -3,6 +3,7 @@ import React, { useContext, useRef, useState } from 'react'
 import BlogService from '../../services/BlogService';
 import { Context } from '../..';
 import { IPost } from '../../models/IPost';
+import styles from './PostEditForm.module.scss';
 
 interface PostEditFormProps {
     post: IPost;
@@ -46,7 +47,7 @@ const PostEditForm = ({post}: PostEditFormProps) => {
     return (
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="title">Заголовок:</label>
+          <label htmlFor="title">Заголовок:</label><br />
           <input
             id="title"
             type="text"
@@ -55,7 +56,7 @@ const PostEditForm = ({post}: PostEditFormProps) => {
           />
         </div>
         <div>
-          <label htmlFor="message">Сообщение:</label>
+          <label htmlFor="message">Сообщение:</label><br />
           <textarea
             id="message"
             value={message}
@@ -63,7 +64,7 @@ const PostEditForm = ({post}: PostEditFormProps) => {
           />
         </div>
         <div>
-          <label htmlFor="media">Медиа:</label>
+          <label htmlFor="media">Медиа:</label><br />
           <input
             ref={fileInputRef}
             id="media"
@@ -71,7 +72,7 @@ const PostEditForm = ({post}: PostEditFormProps) => {
             multiple
             accept=".jpg,.jpeg,.png,.gif,.mp3,.mp4"
             onChange={handleFileChange}
-          />
+          /><br />
         </div>
         <button type="submit">Сохранить изменения</button>
       </form>

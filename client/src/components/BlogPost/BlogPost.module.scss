@@ -1,10 +1,12 @@
 .postItem {
     border: 1px solid gray;
+    border-radius: 5px;
     width: 60%;
     display: flex;
     flex-direction: column;
     padding: 20px;
     margin-bottom: 20px;
+    background-color: #fff;
 }
 
 .imageRow {
@@ -15,13 +17,13 @@
     position: relative;
     padding-bottom: 5px;
     height: 100%;
-}
 
-.imageItem img {
-    width: 100%;
-    min-height: 200px;
-    height: 100%;
-    object-fit: cover;
+    img {
+        width: 100%;
+        min-height: 200px;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .videoRow {
@@ -32,10 +34,9 @@
     position: relative;
     width: 100%;
     margin-right: 2%;
-}
-
-.videoItem video {
-    max-width: 100%;
+    video {
+        max-width: 100%;
+    }
 }
 
 .audioRow {
@@ -46,10 +47,10 @@
     position: relative;
     max-width: 40%;
     margin-right: 2%;
-}
 
-.audioItem audio {
-    max-width: 100%;
+    audio {
+        max-width: 100%;
+    }
 }
 
 .postMessage {
@@ -67,3 +68,8 @@
     cursor: pointer;
     z-index: 9999;
   }
+
+.editButton {
+
+    margin-left: 10px;
+}

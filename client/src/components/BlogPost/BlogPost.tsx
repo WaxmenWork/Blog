@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps, MouseEventHandler, useContext, useEffect, useState } from 'react'
 import { IPost } from '../../models/IPost';
 import { MEDIA_URL } from '../../http';
-import styles from './BlogPost.module.css';
+import styles from './BlogPost.module.scss';
 import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
 import { Context } from '../..';
 import PostEditForm from '../PostEditForm/PostEditForm';
@@ -123,10 +123,10 @@ const BlogPost = ({post}: BlogPostProps) => {
         <Container>
             {post.UserId === store.user.id ? (
                 <Col>
-                    <button onClick={() => blogStore.deletePost(post.id)}>Удалить</button>
+                    <Button onClick={() => blogStore.deletePost(post.id)}>Удалить</Button>
                     {isEditing ?
                     (<PostEditForm post={post}/>) :
-                    <button onClick={editPost}>Редактировать</button>
+                    <Button className={styles.editButton} onClick={editPost}>Редактировать</Button>
                     }
                 </Col>
             ) : <p>Чужой пост</p>}
@@ -136,10 +136,10 @@ const BlogPost = ({post}: BlogPostProps) => {
             <Modal.Header closeButton>Удаление элемента</Modal.Header>
             <Modal.Body>Вы уверены, что хотите удалить этот элемент?</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                <Button onClick={() => setShowModal(false)}>
                     Отмена
                 </Button>
-                <Button variant="primary" onClick={handleConfirmDelete}>
+                <Button onClick={handleConfirmDelete}>
                     ОК
                 </Button>
             </Modal.Footer>
